@@ -1,4 +1,8 @@
-package Reflection;
+package reflection;
+
+import annotations.Init;
+import annotations.JsonElement;
+import annotations.JsonSerializable;
 
 /**
  * Sometimes we can use libraries with some private object properties
@@ -10,8 +14,13 @@ package Reflection;
  * In this example, Person is a normal class what dont have getters/setters for age,
  * we will use reflection to set up this property
  */
+
+@JsonSerializable
 public class Person {
+    @JsonElement
     private String name = "Default";
+
+    @JsonElement(key = "PersonAge")
     private int age;
 
     public Person() {
@@ -29,6 +38,11 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Init
+    private void initData() {
+        this.name = this.name.substring(0,1).toUpperCase() + this.name.substring(1).toLowerCase();
     }
 
     /**
